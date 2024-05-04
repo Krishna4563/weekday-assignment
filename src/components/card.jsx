@@ -3,6 +3,7 @@ import "./card.css";
 
 const Card = () => {
   const [jobData, setJobData] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +45,8 @@ const Card = () => {
 
   return (
     <div>
+      {error && <p>Error: {error}</p>}
+
       <ul className="card-div">
         {jobData.map((job) => (
           <li key={job.jdUid} className="card">
