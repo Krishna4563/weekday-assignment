@@ -88,8 +88,94 @@ const Card = () => {
     }
   };
 
+  const handleLocFilter = (event) => {
+    let category = event.target.value;
+
+    if (category === "") {
+      if (filteredjobs.length > 0) {
+        setJobData(filteredjobs);
+      } else {
+        setJobData(selected);
+      }
+    } else if (category === "remote") {
+      const ans = selected.filter((job) => job.location === "remote");
+      setJobData(ans);
+    } else {
+      const ans =
+        filteredjobs.length > 0
+          ? filteredjobs.filter((job) => job.location === category)
+          : selected.filter((job) => job.location === category);
+      setJobData(ans);
+    }
+  };
+
+  const handleJobTypeFilter = (event) => {
+    let category = event.target.value;
+
+    if (category === "") {
+      if (filteredjobs.length > 0) {
+        setJobData(filteredjobs);
+      } else {
+        setJobData(selected);
+      }
+    } else if (category === "remote") {
+      const filteredJobs = filteredjobs.length > 0 ? filteredjobs : selected;
+      const ans = filteredJobs.filter((job) => job.location === "remote");
+      setJobData(ans);
+    } else {
+      const filteredJobs = filteredjobs.length > 0 ? filteredjobs : selected;
+      const ans = filteredJobs.filter((job) => job.location !== "remote");
+      setJobData(ans);
+    }
+  };
+
+  const handleSalaryFilter = (event) => {
+    let category = event.target.value;
+
+    if (category === "") {
+      if (filteredjobs.length > 0) {
+        setJobData(filteredjobs);
+      } else if (filteredjobs.length === 0 && filteredjobs.length === 0) {
+        setJobData(selected);
+      } else {
+        setJobData(selected);
+      }
+    } else {
+      const ans =
+        filteredjobs.length > 0
+          ? filteredjobs.filter(
+              (job) =>
+                job.minJdSalary <= category <= job.maxJdSalary &&
+                category <= job.maxJdSalary &&
+                category >= job.minJdSalary
+            )
+          : selected.filter(
+              (job) =>
+                job.minJdSalary <= category <= job.maxJdSalary &&
+                category <= job.maxJdSalary &&
+                category >= job.minJdSalary
+            );
+      setJobData(ans);
+    }
+  };
+
+  const handleCompanyFilter = (event) => {
+    let searchTerm = event.target.value.trim().toLowerCase();
+
+    if (searchTerm === "") {
+      setJobData(selected);
+    } else {
+      const filteredJobs = selected.filter((job) =>
+        job.companyName.toLowerCase().includes(searchTerm)
+      );
+      setJobData(filteredJobs);
+    }
+  };
+
   return (
     <div>
+      <h1 className="App-title">Candidate Application Platform</h1>
+
       <div className="filter-menu">
         <select onChange={handleJobFilter}>
           <option value="">
@@ -120,6 +206,51 @@ const Card = () => {
           <option value="12">12</option>
           <option value="13">13 and above</option>
         </select>
+
+        <select onChange={handleLocFilter}>
+          <option value="">
+            <p className="">Location</p>
+          </option>
+          {[...new Set(selected.map((job) => job.location))].map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
+
+        <select onChange={handleJobTypeFilter}>
+          <option value="">
+            <p className="">Job Type</p>
+          </option>
+          <option value="remote">Remote</option>
+          <option value="onsite">Onsite</option>
+        </select>
+
+        <select onChange={handleSalaryFilter}>
+          <option value="">
+            <p className="">Min Base Pay.</p>
+          </option>
+          {[
+            ...new Set(
+              selected
+                .map((job) => job.minJdSalary)
+                .filter((salary) => salary !== null)
+            ),
+          ]
+            .sort((a, b) => a - b)
+            .map((salary) => (
+              <option key={salary} value={salary}>
+                {salary}K USD
+              </option>
+            ))}
+        </select>
+
+        <input
+          type="text"
+          placeholder="Search Company"
+          onChange={handleCompanyFilter}
+          className="search-input"
+        />
       </div>
 
       {error && <p>Error: {error}</p>}
