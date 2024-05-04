@@ -38,26 +38,58 @@ const Card = () => {
     fetchData();
   }, []);
 
+  function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   return (
     <div>
-      <ul>
+      <ul className="card-div">
         {jobData.map((job) => (
-          <li key={job.jdUid}>
-            <p>Job Role: {job.jobRole}</p>
-            <p>Location: {job.location}</p>
-            <p>Min - Experience: {job.minExp}</p>
-            <p>Max - Experience: {job.maxExp}</p>
-            <p>
-              Salary: {job.minJdSalary} - {job.maxJdSalary}{" "}
-              {job.salaryCurrencyCode}
-            </p>
-            <p>
-              Link:{" "}
+          <li key={job.jdUid} className="card">
+            <div className="company-details-div">
+              <div className="logo-div">
+                <img src={job.logoUrl} alt="logo" className="company-logo" />
+              </div>
+              <div className="company-details">
+                <p className="company-name">{job.companyName}</p>
+                <p className="role-name">
+                  {capitalizeFirstLetter(job.jobRole)} Engineer
+                </p>
+                <p className="city-name">
+                  {capitalizeFirstLetter(job.location)}
+                </p>
+              </div>
+            </div>
+
+            <div className="salary-div">
+              <p className="salary">
+                Estimated Salary: {job.minJdSalary} - {job.maxJdSalary}K{" "}
+                {job.salaryCurrencyCode}{" "}
+              </p>
+              <p>&#x2705;</p>
+            </div>
+
+            <div className="jd-div">
+              <p className="p1">About Company:</p>
+              <p className="p2">About us</p>
+              <p className="jd">{job.jobDetailsFromCompany}</p>
+            </div>
+
+            <div className="experience-div">
+              <p className="exp-title">Minimum Experience</p>
+              <p className="exp">
+                {job.minExp} - {job.maxExp} years
+              </p>
+            </div>
+
+            <div className="apply-div">
               <a href={job.jdLink} target="_blank" rel="noopener noreferrer">
-                {job.jdLink}
+                <button className="apply-btn">
+                  <p className="apply-text">⚡Easy Apply</p>
+                </button>
               </a>
-            </p>
-            <p>Details: {job.jobDetailsFromCompany}</p>
+            </div>
           </li>
         ))}
       </ul>
