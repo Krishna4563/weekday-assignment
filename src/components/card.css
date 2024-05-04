@@ -109,6 +109,7 @@
 
 .apply-text {
   text-decoration: none;
+  text-wrap: nowrap;
 }
 
 .apply-btn:hover {
@@ -156,7 +157,10 @@ select {
   align-items: center;
   justify-content: center;
   margin-top: 2rem;
+  text-align: center;
 }
+
+/* responsive code below*/
 
 @media screen and (max-width: 767px) {
   .card-div {
@@ -169,7 +173,7 @@ select {
   }
 
   .App-title {
-    font-size: 1.7em;
+    font-size: 1.5em;
   }
 }
 
@@ -184,6 +188,6 @@ select {
   }
 
   .App-title {
-    font-size: 1.7em;
+    font-size: 1.5em;
   }
 }

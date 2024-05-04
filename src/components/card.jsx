@@ -176,6 +176,8 @@ const Card = () => {
     <div>
       <h1 className="App-title">Candidate Application Platform</h1>
 
+      {/* Search Bar */}
+
       <div className="filter-menu">
         <select onChange={handleJobFilter}>
           <option value="">
@@ -254,6 +256,8 @@ const Card = () => {
       </div>
 
       {error && <p>Error: {error}</p>}
+
+      {/* card component */}
 
       <ul className="card-div">
         {jobData.map((job) => (
