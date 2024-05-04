@@ -4,6 +4,8 @@ import "./card.css";
 const Card = () => {
   const [jobData, setJobData] = useState([]);
   const [error, setError] = useState(null);
+  const [selected, setSelected] = useState([]);
+  const [filteredjobs, setFilteredjobs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +33,7 @@ const Card = () => {
         }
         const result = await response.json();
         setJobData(result.jdList);
+        setSelected(result.jdList);
       } catch (error) {
         setError(error.message);
       }
@@ -43,8 +46,82 @@ const Card = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  const handleJobFilter = (event) => {
+    let category = event.target.value;
+
+    if (category === "") {
+      setJobData(selected);
+    } else {
+      const ans = selected.filter((job) => job.jobRole === category);
+      setFilteredjobs(ans);
+      setJobData(ans);
+    }
+  };
+
+  const handleExpFilter = (event) => {
+    let category = event.target.value;
+
+    if (category === "") {
+      if (filteredjobs.length > 0) {
+        setJobData(filteredjobs);
+      } else if (filteredjobs.length === 0 && filteredjobs.length === 0) {
+        setJobData(selected);
+      } else {
+        setJobData(selected);
+      }
+    } else {
+      const ans =
+        filteredjobs.length > 0
+          ? filteredjobs.filter(
+              (job) =>
+                job.minExp <= category <= job.maxExp &&
+                category <= job.maxExp &&
+                category >= job.minExp
+            )
+          : selected.filter(
+              (job) =>
+                job.minExp <= category <= job.maxExp &&
+                category <= job.maxExp &&
+                category >= job.minExp
+            );
+      setJobData(ans);
+    }
+  };
+
   return (
     <div>
+      <div className="filter-menu">
+        <select onChange={handleJobFilter}>
+          <option value="">
+            <p className="">Roles</p>
+          </option>
+          {[...new Set(selected.map((job) => job.jobRole))].map((jobRole) => (
+            <option key={jobRole} value={jobRole}>
+              {jobRole}
+            </option>
+          ))}
+        </select>
+
+        <select onChange={handleExpFilter}>
+          <option value="">
+            <p className="">Min Exp.</p>
+          </option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13 and above</option>
+        </select>
+      </div>
+
       {error && <p>Error: {error}</p>}
 
       <ul className="card-div">
