@@ -62,13 +62,15 @@ const Card = () => {
               </div>
             </div>
 
-            <div className="salary-div">
-              <p className="salary">
-                Estimated Salary: {job.minJdSalary} - {job.maxJdSalary}K{" "}
-                {job.salaryCurrencyCode}{" "}
-              </p>
-              <p>&#x2705;</p>
-            </div>
+            {job.minJdSalary !== null && job.maxJdSalary !== null ? (
+              <div className="salary-div">
+                <p className="salary">
+                  Estimated Salary: {job.minJdSalary} - {job.maxJdSalary}K{" "}
+                  {job.salaryCurrencyCode}{" "}
+                </p>
+                <p>&#x2705;</p>
+              </div>
+            ) : null}
 
             <div className="jd-div">
               <p className="p1">About Company:</p>
@@ -76,12 +78,14 @@ const Card = () => {
               <p className="jd">{job.jobDetailsFromCompany}</p>
             </div>
 
-            <div className="experience-div">
-              <p className="exp-title">Minimum Experience</p>
-              <p className="exp">
-                {job.minExp} - {job.maxExp} years
-              </p>
-            </div>
+            {job.minExp !== null && job.maxExp !== null ? (
+              <div className="experience-div">
+                <p className="exp-title">Minimum Experience</p>
+                <p className="exp">
+                  {job.minExp} - {job.maxExp} years
+                </p>
+              </div>
+            ) : null}
 
             <div className="apply-div">
               <a href={job.jdLink} target="_blank" rel="noopener noreferrer">
